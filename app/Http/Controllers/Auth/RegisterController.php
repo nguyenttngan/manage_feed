@@ -6,6 +6,7 @@ use App\Lecturer;
 use App\Student;
 use App\User;
 use App\Http\Controllers\Controller;
+use DateTime;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -54,6 +55,7 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
+            'level' => ['required','string']
         ]);
     }
 
@@ -65,6 +67,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $time = DateTime::createFromFormat('d/m/Y',$data['birthday']);
         $data_user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -72,17 +75,23 @@ class RegisterController extends Controller
             'level' => $data['level'],
             'avatar' => ""
         ]);
-        if ($data['level'] === 'student'){
+        if ($data['level'] == 'student'){
             Student::create([
                 'user_id' => $data_user['id'],
                 'name' => $data['name'],
-                'student_code' => $data['user_code']
+                'student_code' => $data['student_code'],
+                'gender' => $data['gender'],
+                'birthday' => $time,
+                'class_name' => $data['class_name']
             ]);
-        } else if ($data['level'] === 'lecturer'){
+        } else if ($data['level'] == 'lecturer'){
             Lecturer::create([
                 'user_id' => $data_user['id'],
                 'name' => $data['name'],
-                'lecturer_code' => $data['user_code']
+                'lecturer_code' => $data['lecturer_code'],
+                'gender' => $data['gender'],
+                'birthday' => $time,
+                'phone_number' => $data['phone_number']
             ]);
         }
         return $data_user;

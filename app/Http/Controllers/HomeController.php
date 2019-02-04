@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Student;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,15 +24,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
-    }
-    public function login2(){
-        return view('auth.login2');
-    }
-    public function login3(){
-        return view('auth.login3');
-    }
-    public function register2(){
-        return view('auth.register2');
+        $student = Student::where('user_id','=',auth()->user()->id)->first();
+//        return view('home');
+        return view('home',['student' => $student]);
     }
 }

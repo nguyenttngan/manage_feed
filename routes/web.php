@@ -11,13 +11,13 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/login2', 'HomeController@login2')->name('login2');
-Route::get('/login3', 'HomeController@login3')->name('login3');
-Route::get('/register2', 'HomeController@register2')->name('register2');
+Route::get('/register-lecturer', function () {
+    return view('auth.register-lecturer');
+})->name('register-lecturer');
+Route::get('/register-student', function () {
+    return view('auth.register-student');
+})->name('register-student');
+Route::get('/{any}', 'HomeController@index')->where('any', '.*');
