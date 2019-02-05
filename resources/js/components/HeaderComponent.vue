@@ -11,9 +11,11 @@
                         Dropdown
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" v-for="item in courses" href="#">{{item.course_code}}</a>
-                        <router-link to="/create-course">
-                            <a class="dropdown-item">Tạo khóa học</a>
+                        <router-link v-bind:to="{path: '/course/'+ item.id}" v-for="item in courses" v-bind:key="item.id" v-on:click.native="courseId = item.id" class="dropdown-item">
+                            {{item.course_code}}
+                        </router-link>
+                        <router-link to="/create-course" class="dropdown-item">
+                            Tạo khóa học
                         </router-link>
                     </div>
                 </div>
@@ -111,20 +113,30 @@
 </template>
 
 <script>
+    import {eventBus} from "../app";
     export default {
         name: "HeaderComponent",
         props: ["student_id"],
+        watch: {
+          courseId: function (val) {
+              if (val !== undefined){
+                  console.log("course id :" + val);
+                  eventBus.$emit('courseIdChange', val)
+              }
+          }
+        },
         mounted(){
             this.getCourses(this.student_id);
         },
         data(){
             return {
+                courseId:0,
                 courses: []
             }
         },
         methods: {
             getCourses(studentID){
-                axios.get('api/courses/'+ studentID).then(response => {
+                axios.get('/api/courses/'+ studentID).then(response => {
                     if (response.status === 200){
                         this.courses = response.data
                     }

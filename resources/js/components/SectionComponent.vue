@@ -7,22 +7,23 @@
                 <i class="right fa fa-angle-left"></i>
             </p>
         </a>
-        <ul class="nav nav-treeview">
-            <li class="nav-item" v-for="item in posts">
-                <router-link to="" class="nav-link">
-                    <i class="fa fa-circle-o nav-icon"></i>
-                    <p>{{item.title}}</p>
-                </router-link>
-            </li>
-        </ul>
+        <!--<ul class="nav nav-treeview">-->
+            <!--<li class="nav-item" v-for="item in posts">-->
+                <!--<router-link to="" class="nav-link">-->
+                    <!--<i class="fa fa-circle-o nav-icon"></i>-->
+                    <!--<p>{{item.title}}</p>-->
+                <!--</router-link>-->
+            <!--</li>-->
+        <!--</ul>-->
     </li>
 </template>
 
 <script>
     export default {
         name: "SectionComponent",
+        props: ['section'],
         mounted(){
-          this.getPosts();
+          // this.getPosts();
         },
         data(){
             return {
@@ -30,8 +31,8 @@
             }
         },
         methods:{
-            getPosts(sectionID){
-                axios.get('api/posts/'+ sectionID).then(response => {
+            getPosts(){
+                axios.get('/api/posts/'+ this.section.id).then(response => {
                     if (response.status === 200){
                         this.posts = response.data
                     }

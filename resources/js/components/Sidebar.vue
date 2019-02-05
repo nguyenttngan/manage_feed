@@ -12,16 +12,48 @@
                     </p>
                 </router-link>
             </li>
-            <section-component></section-component>
+            <section-component v-for="item in sections" v-bind:key="item.id" v-bind:section="item"></section-component>
         </ul>
     </nav>
 </template>
 
 <script>
+    import {eventBus} from "../app";
     import SectionComponent from "./SectionComponent";
     export default {
         name: "Sidebar",
-        components: {SectionComponent}
+        components: {
+            'section-component': SectionComponent
+        },
+        created(){
+            eventBus.$on('courseIdChange', (courseId) => {
+                console.log("Course id sidebar :" + courseId);
+                this.courseId = courseId;
+                this.getSectionByCourse();
+            })
+        },
+        watch: {
+        },
+        mounted(){
+            // this.getSectionByCourse()
+        },
+        data(){
+            return {
+                courseId: 0,
+                sections:[]
+            }
+        },
+        methods: {
+            getSectionByCourse(){
+                if (this.courseId !== undefined){
+                    axios.get('/api/get-sections/' + this.courseId).then(response => {
+                        if (response.status === 200){
+                            this.sections = response.data;
+                        }
+                    })
+                }
+            }
+        }
     }
 </script>
 

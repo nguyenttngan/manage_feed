@@ -1,6 +1,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+export const eventBus = new Vue();
 import router from './router.js'
 import HeaderComponent from './components/HeaderComponent'
 import SidebarComponent from './components/Sidebar'
