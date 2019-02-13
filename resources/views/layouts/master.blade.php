@@ -18,17 +18,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper" id="app">
+    @if(auth()->user()->level == "student")
     <!-- Navbar -->
-        <header-component student_id="{{$student->id}}">
+        <header-component current_id="{{$student->id}}">
 
         </header-component>
     <!-- /.navbar -->
+    @else
+            <header-component current_id="{{$lecturer->id}}">
 
+            </header-component>
+    @endif
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="#" class="brand-link">
-            <img src="./img/logo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+            <img src="{{asset('./img/logo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                  style="opacity: .8">
             <span class="brand-text font-weight-light">UET</span>
         </a>
@@ -38,7 +43,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">
-                    <img src="./img/profile.png" class="img-circle elevation-2" alt="User Image">
+                    <img src="{{asset('./img/profile.png')}}" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
                     <a href="#" class="d-block">{{ Auth::user()->name }}</a>
@@ -76,14 +81,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <footer class="main-footer">
         <!-- To the right -->
         <div class="float-right d-none d-sm-inline">
-            Anything you want
-        </div>
-        <!-- Default to the left -->
-        <strong>Copyright &copy; 2014-2018 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
-        <li class="nav-item">
             <a href="{{route('logout')}}" class="nav-link" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                <i class="nav-icon fa fa-th"></i>
                 <p>
                     Logout
                 </p>
@@ -91,7 +90,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
             </form>
-        </li>
+        </div>
+        <!-- Default to the left -->
+        <strong>Copyright &copy; 2014-2018 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
     </footer>
 </div>
 <!-- ./wrapper -->

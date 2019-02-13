@@ -4,7 +4,7 @@
             <!-- Add icons to the links using the .nav-icon class
                  with font-awesome or any other icon font library -->
             <li class="nav-item">
-                <router-link to="/create-post" class="nav-link">
+                <router-link :to="'/course/'+ courseId +'/create-post'" class="nav-link">
                     <i class="nav-icon fa fa-file"></i>
                     <p>
                         Tạo bài viết
@@ -12,7 +12,11 @@
                     </p>
                 </router-link>
             </li>
-            <section-component v-for="item in sections" v-bind:key="item.id" v-bind:section="item"></section-component>
+            <section-component v-for="item in sections"
+                               v-bind:key="item.id"
+                               v-bind:section="item"
+            >
+            </section-component>
         </ul>
     </nav>
 </template>
@@ -27,19 +31,18 @@
         },
         created(){
             eventBus.$on('courseIdChange', (courseId) => {
-                console.log("Course id sidebar :" + courseId);
                 this.courseId = courseId;
                 this.getSectionByCourse();
-            })
+            });
         },
         watch: {
         },
         mounted(){
-            // this.getSectionByCourse()
+            this.getSectionByCourse()
         },
         data(){
             return {
-                courseId: 0,
+                courseId: this.$route.params.id,
                 sections:[]
             }
         },
@@ -53,6 +56,9 @@
                     })
                 }
             }
+        },
+        destroyed(){
+            eventBus.$off('courseIdChange', this.courseId)
         }
     }
 </script>
