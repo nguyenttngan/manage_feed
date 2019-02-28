@@ -5,13 +5,15 @@
  - List, read, add, remove feed using UI.
 
 ## Setup:
- Create database then edit .env file in DB_DATABASE, DB_USERNAME and DB_PASSWORD.
-
  Run these command line:
  - git clone https://github.com/nguyenttngan/manage_feed
  - cd manage_feed
  - git checkout develop
  - composer install
+ 
+ Create database then edit .env file in DB_DATABASE, DB_USERNAME and DB_PASSWORD.
+ 
+ Run these cli:
  - php artisan migrate
  - php artisan db:seed
  - npm install
