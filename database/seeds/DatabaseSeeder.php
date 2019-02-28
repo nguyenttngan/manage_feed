@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Feed;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,6 +12,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        Feed::create([
+          'title' => 'VnExpress',
+          'url' => 'https://vnexpress.net/rss/thoi-su.rss'
+        ]);
     }
 }

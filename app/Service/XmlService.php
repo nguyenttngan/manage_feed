@@ -6,7 +6,7 @@ use App\Models\Feed;
 
 class XmlService
 {
-    public static function parseXml($xmlStr)
+    public static function parseXml($xmlStr, $includeLink = true)
     {
         $items = [];
         $xmlDoc = new \SimpleXMLElement($xmlStr);
@@ -16,7 +16,11 @@ class XmlService
             $line['title'] = (string) $post->title;
             $line['publishDate'] = (string) $post->publishDate;
             $line['publishDate'] = !$line['publishDate'] ? (string) $post->pubDate : $line['publishDate'];
-            $line['url'] = $post->url;
+
+            if ($includeLink) {
+                $line['link'] = (string) $post->link;
+            }
+
             $items [] = $line;
         }
 

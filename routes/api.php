@@ -16,3 +16,11 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('feeds', 'FeedController@index');
+
+Route::get('feeds/{id}/read', 'FeedController@read');
+
+Route::post('feeds/{id}/remove', 'FeedController@destroy');
+
+Route::post('feeds/create', 'FeedController@create');

@@ -56,7 +56,7 @@ class ReadFeed extends Command
             $this->info('Reading....');
 
             $content = file_get_contents($url);
-            $items = XmlService::parseXml($content);
+            $items = XmlService::parseXml($content, false);
             $headers = ['TITLE', 'PUBLISH DATE'];
             $this->table($headers, $items);
         } catch (\Exception $e) {

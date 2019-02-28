@@ -12,5 +12,13 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/feeds');
 });
+
+Route::get('/feeds', function() {
+  return view('feeds.index');
+});
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
