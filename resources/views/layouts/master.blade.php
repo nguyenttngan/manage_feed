@@ -20,19 +20,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <div class="wrapper" id="app">
     @if(auth()->user()->level == "student")
     <!-- Navbar -->
-        <header-component current_id="{{$student->id}}">
+        <header-component current_id="{{$student->id}}" type_user="{{$typeUser}}">
 
         </header-component>
     <!-- /.navbar -->
     @else
-            <header-component current_id="{{$lecturer->id}}">
+            <header-component current_id="{{$lecturer->id}}" type_user="{{$typeUser}}">
 
             </header-component>
     @endif
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
-        <a href="#" class="brand-link">
+        <a href="{{route("home")}}" class="brand-link">
             <img src="{{asset('./img/logo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                  style="opacity: .8">
             <span class="brand-text font-weight-light">UET</span>
@@ -51,7 +51,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
 
             <!-- Sidebar Menu -->
-            <sidebar-component ></sidebar-component>
+            <sidebar-component></sidebar-component>
             <!-- /.sidebar-menu -->
         </div>
         <!-- /.sidebar -->
@@ -79,20 +79,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Main Footer -->
     <footer class="main-footer">
-        <!-- To the right -->
-        <div class="float-right d-none d-sm-inline">
-            <a href="{{route('logout')}}" class="nav-link" onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                <p>
-                    Logout
-                </p>
-            </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-            </form>
-        </div>
         <!-- Default to the left -->
-        <strong>Copyright &copy; 2014-2018 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2019 <a href="https://adminlte.io">UET Learning System</a>.</strong>
     </footer>
 </div>
 <!-- ./wrapper -->

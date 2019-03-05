@@ -28,10 +28,10 @@ class HomeController extends Controller
         $type = auth()->user()->level;
         if ($type == "student"){
             $student = Student::where('user_id','=',auth()->user()->id)->first();
-            return view('home',['student' => $student]);
+            return view('home',['student' => $student,'typeUser' => $type]);
         }
         $lecturer = Lecturer::where('user_id','=',auth()->user()->id)->first();
-        return view('home',['lecturer' => $lecturer]);
+        return view('home',['lecturer' => $lecturer,'typeUser' => $type]);
 
     }
 }

@@ -59,6 +59,7 @@
         },
         mounted() {
           this.getSemesters();
+          this.getCurrentUser();
         },
         data(){
             return {
@@ -67,7 +68,7 @@
                     course_name: "",
                     number_of_credits: 1,
                     semester_id: 1,
-                    lecturer_id: 1,
+                    lecturer_id: null,
                 },
                 semesters:[],
             }
@@ -81,7 +82,15 @@
                             'Tạo khóa học thành công!',
                             'success'
                         );
+                        this.$router.push({ name: 'course', params: { id: response.data.id } });
                         this.resetDataCreate();
+                    }
+                })
+            },
+            getCurrentUser(){
+                axios.get('/api/get-current-user').then(response => {
+                    if (response.status === 200){
+                        this.newCourse.lecturer_id = response.data.id;
                     }
                 })
             },

@@ -24,17 +24,21 @@
 </template>
 
 <script>
-    import {eventBus} from "../app";
     export default {
         name: "SectionComponent",
         props: {
             section: Object,
         },
         created(){
-            eventBus.$on('postCreated',(status) => {
-                if (status === "success")
-                    this.getPosts();
-            })
+            // eventBus.$on('postCreated',(status) => {
+            //     if (status === "success")
+            //         this.getPosts();
+            // })
+        },
+        watch: {
+            section: function () {
+                this.getPosts();
+            }
         },
         mounted(){
             // this.path = this.$route.path;

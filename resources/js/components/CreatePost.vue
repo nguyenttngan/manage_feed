@@ -45,8 +45,8 @@
                                 <input class="form-control spinner" v-model="newPost.description" type="text" placeholder="Mô tả">
                             </div>
                             <div class="form-group">
-                                <label for="editor1">Nội dung</label>
-                                <textarea class="form-control" v-model="newPost.content" id="editor1"></textarea>
+                                <label>Nội dung</label>
+                                <ckeditor  :editor="editor" v-model="newPost.content" :config="editorConfig"></ckeditor>
                             </div>
                         </div>
                         <div class="card-footer">
@@ -61,7 +61,7 @@
 </template>
 
 <script>
-    import {eventBus} from "../app";
+    import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
     export default {
         name: "CreatePost",
         mounted() {
@@ -79,7 +79,18 @@
                     content: ""
                 },
                 sections:[],
+                editor: ClassicEditor,
+                editorConfig: {
+                    // plugins: [ CKFinder, ... ],
+                    ckfinder: {
+                        uploadUrl: '/api/upload-image',
+                    },
+                    toolbar: [ 'heading','|','bold', 'italic','bulletedList', 'numberedList', 'alignment', 'imageUpload', '|', 'undo', 'redo' ],
+                }
             }
+        },
+        beforeRouteUpdate(){
+
         },
         methods: {
             getSections(){
@@ -97,8 +108,7 @@
                             'Tạo bài viết thành công!',
                             'success'
                         );
-                        eventBus.$emit('postCreated', "success");
-                        this.$router.go(-1);
+                        this.$router.push({ name: 'course', params: { id: this.course_id } });
                     }
                 })
             },

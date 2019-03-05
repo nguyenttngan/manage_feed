@@ -11,18 +11,23 @@
                         {{courseName}}
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <router-link v-bind:to="{path: '/course/'+ item.id}" v-for="item in courses" v-bind:key="item.id" v-on:click.native="courseInfo(item)" class="dropdown-item">
+                        <router-link :to="{name: 'course',params:{id: item.id}}" v-for="item in courses" v-bind:key="item.id" v-on:click.native="courseInfo(item)" class="dropdown-item">
                             {{item.course_code}}
                         </router-link>
-                        <router-link to="/create-course" class="dropdown-item">
+                        <router-link to="/create-course" class="dropdown-item" v-if="type_user === 'lecturer'">
                             Tạo khóa học
                         </router-link>
                     </div>
                 </div>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="#" class="nav-link">Contact</a>
+                <router-link :to="{name: 'resources'}" class="nav-link">
+                    Tài nguyên
+                </router-link>
             </li>
+            <router-link :to="{name: 'manager-course'}" class="nav-link">
+                Quản lý khóa học
+            </router-link>
         </ul>
 
         <!-- SEARCH FORM -->
@@ -36,44 +41,70 @@
                 </div>
             </div>
         </form>
+        <ul class="navbar-nav ml-auto">
+            <li>
+                <a class="nav-link" href="/logout">Đăng xuất</a>
+            </li>
+        </ul>
     </nav>
 </template>
 
 <script>
-    import {eventBus} from "../app";
     export default {
         name: "HeaderComponent",
-        props: ["current_id"],
+        props: ["current_id", "type_user"],
         watch: {
-          courseId: function (val) {
-              if (val !== undefined){
-                  console.log("course id :" + val);
-                  eventBus.$emit('courseIdChange', val)
-              }
-          }
         },
         mounted(){
-            this.getCourses(this.current_id);
-            eventBus.$emit('currentId', this.current_id);
+            this.getCourses();
         },
         data(){
             return {
                 courseName: "Khóa học",
                 courseId:0,
-                courses: []
+                courses: [],
             }
         },
         methods: {
-            getCourses(studentID){
-                axios.get('/api/courses/'+ studentID).then(response => {
-                    if (response.status === 200){
-                        this.courses = response.data
-                    }
-                })
+            getCourses(){
+                if ( this.type_user === "lecturer"){
+                    axios.get('/api/get-courses-lecturer/'+ this.current_id).then(response => {
+                        if (response.status === 200){
+                            this.courses = response.data;
+                            if (this.courses.length > 0 ){
+                                this.$router.push({name: 'course', params: {id: this.courses[0].id}});
+                                this.courseName = this.courses[0].course_code;
+                            }
+                        }
+                    })
+                }else {
+                    axios.get('/api/get-courses-student/'+ this.current_id).then(response => {
+                        if (response.status === 200){
+                            this.courses = response.data;
+                            if (this.courses.length > 0 ){
+                                this.$router.push({name: 'course', params: {id: this.courses[0].id}});
+                                this.courseName = this.courses[0].course_code;
+                            }
+                        }
+                    })
+                }
             },
             courseInfo(course){
                 this.courseId = course.id;
                 this.courseName = course.course_code;
+            },
+            logout(){
+                axios.get('/api/logout').then(response => {
+                    if (response.status === 200){
+                        alert(response.data);
+                        // this.$router.go('/login');
+                    }
+                })
+                    .catch(error => {
+                        // localStorage.removeItem('auth_token');
+                        // delete axios.defaults.headers.common['Authorization'];
+                        // this.$router.go('/login');
+                    });
             }
         }
     }

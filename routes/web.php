@@ -14,6 +14,7 @@
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/logout', 'API\UserController@logout');
 Route::get('/register-lecturer', function () {
     return view('auth.register-lecturer');
 })->name('register-lecturer');

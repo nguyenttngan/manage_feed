@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Lecturer extends Model
+class Semester extends Model
 {
-    protected $table='lecturers';
+    protected $table='semesters';
     protected $fillable = [
-        'user_id','lecturer_code','name','gender','birthday', 'phone_number'
+        'semester','school_year'
     ];
     public function courses(){
         return $this->hasMany('App\Course');
