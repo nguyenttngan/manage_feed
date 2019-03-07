@@ -7,6 +7,7 @@ window.swal = swal;
 import router from './router.js'
 import HeaderComponent from './components/HeaderComponent'
 import SidebarComponent from './components/Sidebar'
+import SearchCourse from './components/SearchCourse'
 
 
 // const files = require.context('./', true, /\.vue$/i)
@@ -24,6 +25,7 @@ const app = new Vue({
     router,
     components: {
         HeaderComponent,
-        SidebarComponent
+        SidebarComponent,
+        SearchCourse
     }
 });

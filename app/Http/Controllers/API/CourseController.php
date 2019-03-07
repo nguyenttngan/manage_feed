@@ -107,4 +107,11 @@ class CourseController extends Controller
         $courses = Course::where('lecturer_id','=',$lecturer_id)->get();
         return response()->json($courses, 200, ['Content-type' => 'application/json; charset=utf-8'], JSON_UNESCAPED_UNICODE);
     }
+
+    public function search($keyword)
+    {
+        $courses = Course::where('course_name', 'like', '%'.$keyword.'%')->orWhere('course_code', 'like', '%'.$keyword.'%')->get();
+        
+        return response()->json(['courses' => $courses]);
+    }
 }

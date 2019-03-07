@@ -7,6 +7,7 @@ import CourseInfo from './components/CourseInfo'
 import PostInfo from './components/PostInfo'
 import Resource from './components/ResourceComponent'
 import ManagerCourse from './components/ManagerCourseComponent'
+
 Vue.use(VueRouter);
 Vue.use(CKEditor);
 let routes = [

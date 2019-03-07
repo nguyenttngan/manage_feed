@@ -32,5 +32,6 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::get('/posts/{id}','API\PostController@show');
     Route::post('/comments','API\CommentController@store');
     Route::get('/comments/{post_id}','API\CommentController@getCommentByPost');
+    Route::get('/courses/search/{keyword}', 'API\CourseController@search');
 });
 Route::post('/upload-image','API\PostController@uploadImage');
